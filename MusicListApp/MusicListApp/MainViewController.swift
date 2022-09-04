@@ -13,7 +13,7 @@ class MainViewController: UIViewController {
     private lazy var songNameLabel: UILabel = {
         let label = UILabel()
         label.text = "nameSowrwerwerwererwe ewr rwe r w re ng"
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.textColor = .white
         label.layer.masksToBounds = true
         label.font = .systemFont(ofSize: 20,
@@ -31,6 +31,19 @@ class MainViewController: UIViewController {
                                         y: 0.5)
         return gradienLayer
     }()
+    
+    private lazy var musicanNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "nameSowrwerwerwererwe ewr rwe r w re ng"
+        label.textAlignment = .left
+        label.textColor = .white
+        label.layer.masksToBounds = true
+        label.font = .systemFont(ofSize: 14,
+                                 weight: .light)
+        return label
+    }()
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,12 +61,20 @@ class MainViewController: UIViewController {
                                        blue: 38/255,
                                        alpha: 1)
         
-        [songNameLabel].forEach({view.addSubview($0)})
+        [songNameLabel, musicanNameLabel].forEach({view.addSubview($0)})
         
         songNameLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-22)
             make.top.equalToSuperview().offset(482)
+            make.height.equalTo(20)
+        }
+        
+        musicanNameLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-22)
+            make.top.equalTo(songNameLabel.snp.bottom).offset(5)
+            make.height.equalTo(20)
         }
         
     }

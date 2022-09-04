@@ -15,6 +15,9 @@
 		BC84B68D28C2516100D877CC /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BC84B68C28C2516100D877CC /* SnapKit */; };
 		BCA95E4228C5123A009B052B /* MusicCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA95E4128C5123A009B052B /* MusicCollectionViewCell.swift */; };
 		BCA95E4428C51568009B052B /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA95E4328C51568009B052B /* MainView.swift */; };
+		BCA95E4828C52685009B052B /* OneRepublic - I Ain't Worried.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BCA95E4728C52685009B052B /* OneRepublic - I Ain't Worried.mp3 */; };
+		BCA95E4A28C5268D009B052B /* imagine_dragon_-_beliver_(z2.fm).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BCA95E4928C5268D009B052B /* imagine_dragon_-_beliver_(z2.fm).mp3 */; };
+		BCA95E4C28C52698009B052B /* muzika_v_mashinu_2022_-_swedish_house_mafia__the_weeknd_-_moth_to_a_flame_(z2.fm).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BCA95E4B28C52698009B052B /* muzika_v_mashinu_2022_-_swedish_house_mafia__the_weeknd_-_moth_to_a_flame_(z2.fm).mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +30,9 @@
 		BC84B68528C250BF00D877CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCA95E4128C5123A009B052B /* MusicCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicCollectionViewCell.swift; sourceTree = "<group>"; };
 		BCA95E4328C51568009B052B /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		BCA95E4728C52685009B052B /* OneRepublic - I Ain't Worried.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "OneRepublic - I Ain't Worried.mp3"; sourceTree = "<group>"; };
+		BCA95E4928C5268D009B052B /* imagine_dragon_-_beliver_(z2.fm).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "imagine_dragon_-_beliver_(z2.fm).mp3"; sourceTree = "<group>"; };
+		BCA95E4B28C52698009B052B /* muzika_v_mashinu_2022_-_swedish_house_mafia__the_weeknd_-_moth_to_a_flame_(z2.fm).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "muzika_v_mashinu_2022_-_swedish_house_mafia__the_weeknd_-_moth_to_a_flame_(z2.fm).mp3"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,13 +66,10 @@
 		BC84B67628C250B700D877CC /* MusicListApp */ = {
 			isa = PBXGroup;
 			children = (
+				BCA95E4528C52663009B052B /* SupportFiles */,
 				BCA95E3E28C511A8009B052B /* Models */,
 				BCA95E4028C511BA009B052B /* ViewModel */,
 				BCA95E3F28C511B2009B052B /* Views */,
-				BC84B67728C250B700D877CC /* AppDelegate.swift */,
-				BC84B67928C250B700D877CC /* SceneDelegate.swift */,
-				BC84B68028C250BF00D877CC /* Assets.xcassets */,
-				BC84B68228C250BF00D877CC /* LaunchScreen.storyboard */,
 				BC84B68528C250BF00D877CC /* Info.plist */,
 			);
 			path = MusicListApp;
@@ -94,6 +97,28 @@
 			children = (
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		BCA95E4528C52663009B052B /* SupportFiles */ = {
+			isa = PBXGroup;
+			children = (
+				BCA95E4628C52671009B052B /* Songs */,
+				BC84B67728C250B700D877CC /* AppDelegate.swift */,
+				BC84B67928C250B700D877CC /* SceneDelegate.swift */,
+				BC84B68028C250BF00D877CC /* Assets.xcassets */,
+				BC84B68228C250BF00D877CC /* LaunchScreen.storyboard */,
+			);
+			path = SupportFiles;
+			sourceTree = "<group>";
+		};
+		BCA95E4628C52671009B052B /* Songs */ = {
+			isa = PBXGroup;
+			children = (
+				BCA95E4728C52685009B052B /* OneRepublic - I Ain't Worried.mp3 */,
+				BCA95E4928C5268D009B052B /* imagine_dragon_-_beliver_(z2.fm).mp3 */,
+				BCA95E4B28C52698009B052B /* muzika_v_mashinu_2022_-_swedish_house_mafia__the_weeknd_-_moth_to_a_flame_(z2.fm).mp3 */,
+			);
+			path = Songs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -160,8 +185,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCA95E4C28C52698009B052B /* muzika_v_mashinu_2022_-_swedish_house_mafia__the_weeknd_-_moth_to_a_flame_(z2.fm).mp3 in Resources */,
 				BC84B68428C250BF00D877CC /* LaunchScreen.storyboard in Resources */,
+				BCA95E4828C52685009B052B /* OneRepublic - I Ain't Worried.mp3 in Resources */,
 				BC84B68128C250BF00D877CC /* Assets.xcassets in Resources */,
+				BCA95E4A28C5268D009B052B /* imagine_dragon_-_beliver_(z2.fm).mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

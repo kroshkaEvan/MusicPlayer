@@ -14,11 +14,15 @@
 		BC84B68428C250BF00D877CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC84B68228C250BF00D877CC /* LaunchScreen.storyboard */; };
 		BC84B68D28C2516100D877CC /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BC84B68C28C2516100D877CC /* SnapKit */; };
 		BCA95E4228C5123A009B052B /* MusicCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA95E4128C5123A009B052B /* MusicCollectionViewCell.swift */; };
-		BCA95E4428C51568009B052B /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA95E4328C51568009B052B /* MainView.swift */; };
+		BCA95E4428C51568009B052B /* MusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA95E4328C51568009B052B /* MusicView.swift */; };
 		BCA95E4828C52685009B052B /* OneRepublic - I Ain't Worried.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BCA95E4728C52685009B052B /* OneRepublic - I Ain't Worried.mp3 */; };
 		BCA95E4A28C5268D009B052B /* imagine_dragon_-_beliver_(z2.fm).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BCA95E4928C5268D009B052B /* imagine_dragon_-_beliver_(z2.fm).mp3 */; };
 		BCA95E4C28C52698009B052B /* muzika_v_mashinu_2022_-_swedish_house_mafia__the_weeknd_-_moth_to_a_flame_(z2.fm).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BCA95E4B28C52698009B052B /* muzika_v_mashinu_2022_-_swedish_house_mafia__the_weeknd_-_moth_to_a_flame_(z2.fm).mp3 */; };
 		BCA95E4E28C5270D009B052B /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA95E4D28C5270D009B052B /* Song.swift */; };
+		BCA95E5028C52D36009B052B /* MusicPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA95E4F28C52D36009B052B /* MusicPresenter.swift */; };
+		BCA95E5328C52DE6009B052B /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA95E5228C52DE6009B052B /* AudioManager.swift */; };
+		BCA95E5528C53DD4009B052B /* MusicViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA95E5428C53DD4009B052B /* MusicViewProtocol.swift */; };
+		BCA95E5728C54B37009B052B /* ModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA95E5628C54B37009B052B /* ModuleBuilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,11 +34,15 @@
 		BC84B68328C250BF00D877CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BC84B68528C250BF00D877CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCA95E4128C5123A009B052B /* MusicCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicCollectionViewCell.swift; sourceTree = "<group>"; };
-		BCA95E4328C51568009B052B /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		BCA95E4328C51568009B052B /* MusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicView.swift; sourceTree = "<group>"; };
 		BCA95E4728C52685009B052B /* OneRepublic - I Ain't Worried.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "OneRepublic - I Ain't Worried.mp3"; sourceTree = "<group>"; };
 		BCA95E4928C5268D009B052B /* imagine_dragon_-_beliver_(z2.fm).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "imagine_dragon_-_beliver_(z2.fm).mp3"; sourceTree = "<group>"; };
 		BCA95E4B28C52698009B052B /* muzika_v_mashinu_2022_-_swedish_house_mafia__the_weeknd_-_moth_to_a_flame_(z2.fm).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "muzika_v_mashinu_2022_-_swedish_house_mafia__the_weeknd_-_moth_to_a_flame_(z2.fm).mp3"; sourceTree = "<group>"; };
 		BCA95E4D28C5270D009B052B /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
+		BCA95E4F28C52D36009B052B /* MusicPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPresenter.swift; sourceTree = "<group>"; };
+		BCA95E5228C52DE6009B052B /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
+		BCA95E5428C53DD4009B052B /* MusicViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicViewProtocol.swift; sourceTree = "<group>"; };
+		BCA95E5628C54B37009B052B /* ModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +78,7 @@
 			children = (
 				BCA95E4528C52663009B052B /* SupportFiles */,
 				BCA95E3E28C511A8009B052B /* Models */,
-				BCA95E4028C511BA009B052B /* ViewModel */,
+				BCA95E4028C511BA009B052B /* Presenter */,
 				BCA95E3F28C511B2009B052B /* Views */,
 				BC84B68528C250BF00D877CC /* Info.plist */,
 			);
@@ -81,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				BCA95E4D28C5270D009B052B /* Song.swift */,
+				BCA95E5228C52DE6009B052B /* AudioManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -88,18 +97,18 @@
 		BCA95E3F28C511B2009B052B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				BC84B67B28C250B700D877CC /* MusicViewController.swift */,
-				BCA95E4128C5123A009B052B /* MusicCollectionViewCell.swift */,
-				BCA95E4328C51568009B052B /* MainView.swift */,
+				BCA95E5128C52D41009B052B /* MusicFlow */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		BCA95E4028C511BA009B052B /* ViewModel */ = {
+		BCA95E4028C511BA009B052B /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
+				BCA95E4F28C52D36009B052B /* MusicPresenter.swift */,
+				BCA95E5628C54B37009B052B /* ModuleBuilder.swift */,
 			);
-			path = ViewModel;
+			path = Presenter;
 			sourceTree = "<group>";
 		};
 		BCA95E4528C52663009B052B /* SupportFiles */ = {
@@ -122,6 +131,17 @@
 				BCA95E4B28C52698009B052B /* muzika_v_mashinu_2022_-_swedish_house_mafia__the_weeknd_-_moth_to_a_flame_(z2.fm).mp3 */,
 			);
 			path = Songs;
+			sourceTree = "<group>";
+		};
+		BCA95E5128C52D41009B052B /* MusicFlow */ = {
+			isa = PBXGroup;
+			children = (
+				BCA95E5428C53DD4009B052B /* MusicViewProtocol.swift */,
+				BC84B67B28C250B700D877CC /* MusicViewController.swift */,
+				BCA95E4128C5123A009B052B /* MusicCollectionViewCell.swift */,
+				BCA95E4328C51568009B052B /* MusicView.swift */,
+			);
+			path = MusicFlow;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,11 +223,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCA95E5528C53DD4009B052B /* MusicViewProtocol.swift in Sources */,
+				BCA95E5328C52DE6009B052B /* AudioManager.swift in Sources */,
 				BCA95E4E28C5270D009B052B /* Song.swift in Sources */,
+				BCA95E5728C54B37009B052B /* ModuleBuilder.swift in Sources */,
 				BC84B67C28C250B700D877CC /* MusicViewController.swift in Sources */,
+				BCA95E5028C52D36009B052B /* MusicPresenter.swift in Sources */,
 				BC84B67828C250B700D877CC /* AppDelegate.swift in Sources */,
 				BC84B67A28C250B700D877CC /* SceneDelegate.swift in Sources */,
-				BCA95E4428C51568009B052B /* MainView.swift in Sources */,
+				BCA95E4428C51568009B052B /* MusicView.swift in Sources */,
 				BCA95E4228C5123A009B052B /* MusicCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

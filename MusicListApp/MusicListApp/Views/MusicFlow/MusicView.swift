@@ -10,32 +10,7 @@ import SnapKit
 
 class MusicView: UIView {
     
-    // MARK: - Properties
-    
-    weak var viewController: MusicViewController?
-    
     //MARK: - Views
-    
-    private let collectionViewLayout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 341,
-                                 height: 310)
-        layout.minimumLineSpacing = 20
-        return layout
-    }()
-    
-    lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero,
-                                              collectionViewLayout: collectionViewLayout)
-        collectionView.backgroundColor = .clear
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 32,
-                                                   bottom: 0, right: 32)
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(MusicCollectionViewCell.self,
-                                forCellWithReuseIdentifier: MusicCollectionViewCell.identifier)
-        return collectionView
-    }()
     
     lazy var songNameLabel: UILabel = {
         let label = UILabel()
@@ -137,21 +112,14 @@ class MusicView: UIView {
                                   blue: 38/255,
                                   alpha: 1)
         
-        [collectionView, songNameLabel, musicanNameLabel,
+        [ songNameLabel, musicanNameLabel,
          musicSlider, playMusicButton, backwardMusicButton,
         nextMusicButton].forEach({ addSubview($0)})
-        
-        collectionView.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.top.equalToSuperview().offset(100)
-            make.height.equalTo(310)
-        }
-        
+                
         songNameLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-22)
-            make.top.equalToSuperview().offset(482)
+            make.top.equalToSuperview()
             make.height.equalTo(20)
         }
         

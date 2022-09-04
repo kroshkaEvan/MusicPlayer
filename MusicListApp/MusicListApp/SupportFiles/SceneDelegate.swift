@@ -15,11 +15,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        let viewController = MusicViewController()
-        let navigationController = UINavigationController(rootViewController: viewController)
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
+        let musicVC = ModuleBuilder.createMusicModule()
         window?.windowScene = windowScene
-        window?.rootViewController = navigationController
+        window?.rootViewController = UINavigationController(rootViewController: musicVC)
         window?.makeKeyAndVisible()
     }
 }

@@ -18,6 +18,7 @@
 		BCA95E4828C52685009B052B /* OneRepublic - I Ain't Worried.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BCA95E4728C52685009B052B /* OneRepublic - I Ain't Worried.mp3 */; };
 		BCA95E4A28C5268D009B052B /* imagine_dragon_-_beliver_(z2.fm).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BCA95E4928C5268D009B052B /* imagine_dragon_-_beliver_(z2.fm).mp3 */; };
 		BCA95E4C28C52698009B052B /* muzika_v_mashinu_2022_-_swedish_house_mafia__the_weeknd_-_moth_to_a_flame_(z2.fm).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BCA95E4B28C52698009B052B /* muzika_v_mashinu_2022_-_swedish_house_mafia__the_weeknd_-_moth_to_a_flame_(z2.fm).mp3 */; };
+		BCA95E4E28C5270D009B052B /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA95E4D28C5270D009B052B /* Song.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		BCA95E4728C52685009B052B /* OneRepublic - I Ain't Worried.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "OneRepublic - I Ain't Worried.mp3"; sourceTree = "<group>"; };
 		BCA95E4928C5268D009B052B /* imagine_dragon_-_beliver_(z2.fm).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "imagine_dragon_-_beliver_(z2.fm).mp3"; sourceTree = "<group>"; };
 		BCA95E4B28C52698009B052B /* muzika_v_mashinu_2022_-_swedish_house_mafia__the_weeknd_-_moth_to_a_flame_(z2.fm).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "muzika_v_mashinu_2022_-_swedish_house_mafia__the_weeknd_-_moth_to_a_flame_(z2.fm).mp3"; sourceTree = "<group>"; };
+		BCA95E4D28C5270D009B052B /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 		BCA95E3E28C511A8009B052B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				BCA95E4D28C5270D009B052B /* Song.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -200,6 +203,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCA95E4E28C5270D009B052B /* Song.swift in Sources */,
 				BC84B67C28C250B700D877CC /* MusicViewController.swift in Sources */,
 				BC84B67828C250B700D877CC /* AppDelegate.swift in Sources */,
 				BC84B67A28C250B700D877CC /* SceneDelegate.swift in Sources */,

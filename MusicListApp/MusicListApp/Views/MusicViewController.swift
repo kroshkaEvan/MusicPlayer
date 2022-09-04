@@ -38,14 +38,14 @@ extension MusicViewController: UICollectionViewDataSource, UICollectionViewDeleg
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        3
+        return DataSongs.data.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MusicCollectionViewCell.identifier,
                                                       for: indexPath)
         if let cell = cell as? MusicCollectionViewCell {
-            cell.songImageView.image = UIImage(named: "mothToAFlame")
+            cell.songImageView.image = DataSongs.data[indexPath.row].imageName
         }
         return cell
     }

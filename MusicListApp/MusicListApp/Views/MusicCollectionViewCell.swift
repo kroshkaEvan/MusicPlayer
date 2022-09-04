@@ -32,9 +32,9 @@ class MusicCollectionViewCell: UICollectionViewCell {
     
     var songImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
-        imageView.contentMode = .scaleToFill
+        imageView.layer.cornerRadius = 10
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -57,9 +57,8 @@ class MusicCollectionViewCell: UICollectionViewCell {
         
         songImageView.snp.makeConstraints({ make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
             make.width.equalTo(310)
+            make.height.equalTo(310)
         })
         
         transparentView.snp.makeConstraints({ make in

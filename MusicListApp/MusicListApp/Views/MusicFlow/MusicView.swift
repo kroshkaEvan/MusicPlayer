@@ -58,8 +58,8 @@ class MusicView: UIView {
     }()
     
     lazy var playMusicButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "play"),
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "play.fill"),
                         for: .normal)
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowRadius = 15
@@ -73,7 +73,7 @@ class MusicView: UIView {
         return button
     }()
     
-    private lazy var nextMusicButton: UIButton = {
+    lazy var nextMusicButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "forward.end"),
                         for: .normal)
@@ -82,7 +82,7 @@ class MusicView: UIView {
         return button
     }()
     
-    private lazy var backwardMusicButton: UIButton = {
+    lazy var backwardMusicButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "backward.end"),
                         for: .normal)

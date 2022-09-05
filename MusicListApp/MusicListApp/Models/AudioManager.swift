@@ -23,11 +23,9 @@ class AudioManager: NSObject, AudioManagerProtocol, AVAudioPlayerDelegate {
     func prepareToPlay(index: Int) {
         let audioURL = URL(fileURLWithPath: Bundle.main.path(forResource: DataSongs.data[index].filePath,
                                                               ofType: "mp3") ?? "")
-        
         try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: AVAudioSession.Category.playback.rawValue))
         try? AVAudioSession.sharedInstance().setActive(true)
         UIApplication.shared.beginReceivingRemoteControlEvents()
-        
         audioPlayer = try? AVAudioPlayer(contentsOf: audioURL)
         audioPlayer?.delegate = self
         audioPlayer?.prepareToPlay()

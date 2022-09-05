@@ -51,6 +51,8 @@ class MusicViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
+        addAllAction()
+        reloadDataCell(index: currentIndex)
     }
     
     override func viewDidLayoutSubviews() {
@@ -80,6 +82,47 @@ class MusicViewController: UIViewController {
             make.top.equalTo(collectionView.snp.bottom).offset(72)
             make.bottom.equalToSuperview()
         }
+    }
+    
+    private func addAllAction() {
+        musicView.playMusicButton.addTarget(self,
+                                            action: #selector(didTapPlayMusic),
+                                            for: .touchUpInside)
+        musicView.backwardMusicButton.addTarget(self,
+                                                action: #selector(didTapPreviousMusic),
+                                                for: .touchUpInside)
+        musicView.nextMusicButton.addTarget(self,
+                                            action: #selector(didTapNextMusic),
+                                            for: .touchUpInside)
+    }
+    
+    private func flipAudio(next: Bool) {
+        guard let data = presenter?.getSongs() else { return }
+        var index = 0
+        if next {
+            index = currentIndex == data.count - 1 ? 0 : currentIndex + 1
+        } else {
+            index = currentIndex == 0 ? data.count - 1 : currentIndex - 1
+        }
+        
+        collectionView.scrollToItem(at: IndexPath(row: index, section: 0),
+                                    at: .centeredHorizontally,
+                                    animated: false)
+        currentIndex = index
+        reloadDataCell(index: currentIndex)
+        presenter?.playMusic()
+    }
+    
+    @objc private func didTapPlayMusic() {
+        presenter?.playMusic()
+    }
+    
+    @objc private func didTapPreviousMusic() {
+        flipAudio(next: false)
+    }
+    
+    @objc private func didTapNextMusic() {
+        flipAudio(next: true)
     }
 }
 
@@ -116,7 +159,6 @@ extension MusicViewController: MusicViewProtocol {
             musicView.musicanNameLabel.text = ""
             return
         }
-        
         presenter?.prepareToPlay(index: index)
         musicView.songNameLabel.text = data.name
         musicView.musicanNameLabel.text = data.singer
@@ -145,10 +187,8 @@ extension MusicViewController: UICollectionViewDataSource, UICollectionViewDeleg
     func scrollViewWillEndDragging(_ scrollView: UIScrollView,
                                    withVelocity velocity: CGPoint,
                                    targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
         changeCellPosition(velocity: velocity,
                            targetContentOffset: targetContentOffset)
-        
         reloadDataCell(index: currentIndex)
         presenter?.playMusic()
     }

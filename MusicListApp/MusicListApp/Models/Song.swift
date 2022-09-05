@@ -26,17 +26,17 @@ struct Song {
 }
 
 class DataSongs {
-    static let data: [Song] = [Song(name: "I Ain't Worried",
+    static let data: [Song] = [Song(name: "Beliver",
+                                    singer: "Imagine Dragons",
+                                    filePath: "imagine_dragon_-_beliver_(z2.fm)",
+                                    imageName: "ImagineDragons"),
+                               Song(name: "I Ain't Worried",
                                     singer: "OneRepublic",
                                     filePath: "OneRepublic - I Ain't Worried",
                                     imageName: "topGun"),
-                               Song(name: "Beliver",
-                                    singer: "Imagine Dragons",
-                                    filePath: "imagine_dragon_-_beliver_(z2.fm).mp3",
-                                    imageName: "ImagineDragons"),
                                Song(name: "Moth To A Flame",
                                     singer: "Swedish House Mafia, The Weeknd",
-                                    filePath: "muzika_v_mashinu_2022_-_swedish_house_mafia__the_weeknd_-_moth_to_a_flame_(z2.fm).mp3",
+                                    filePath: "muzika_v_mashinu_2022_-_swedish_house_mafia__the_weeknd_-_moth_to_a_flame_(z2.fm)",
                                     imageName: "mothToAFlame")
     ]
 }

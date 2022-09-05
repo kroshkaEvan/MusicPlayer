@@ -8,16 +8,22 @@
 import UIKit
 import SnapKit
 
-class MusicViewController: UIViewController, MusicViewProtocol {
+class MusicViewController: UIViewController {
     
-    private var musicView = MusicView()
+    lazy var width = view.frame.size.width
+    lazy var cellItemHeight: CGFloat = width * 0.75
+    lazy var cellItemWidth: CGFloat = width * 0.8
+    lazy var cellContentInset: CGFloat = width * 0.1
+    lazy var cellSpacing: CGFloat = (width - cellItemWidth) / 2
+
+    private lazy var musicView = MusicView()
     
-    private let collectionViewLayout: UICollectionViewFlowLayout = {
+    private lazy var collectionViewLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 340,
-                                 height: 310)
-        layout.minimumLineSpacing = 20
+        layout.minimumLineSpacing = cellSpacing
+        layout.itemSize = CGSize(width: cellItemWidth,
+                                 height: cellItemHeight)
         return layout
     }()
     
@@ -25,8 +31,8 @@ class MusicViewController: UIViewController, MusicViewProtocol {
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: collectionViewLayout)
         collectionView.backgroundColor = .clear
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 20,
-                                                   bottom: 0, right: 20)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: cellContentInset,
+                                                   bottom: 0, right: cellContentInset)
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(MusicCollectionViewCell.self,
                                 forCellWithReuseIdentifier: MusicCollectionViewCell.identifier)
@@ -40,6 +46,7 @@ class MusicViewController: UIViewController, MusicViewProtocol {
     }()
     
     var presenter: MainPresenterProtocol?
+    var currentIndex = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,12 +64,14 @@ class MusicViewController: UIViewController, MusicViewProtocol {
                                        alpha: 1)
         
         [musicView, collectionView].forEach({ view.addSubview($0)})
-         
+        
+        let heightCollectionView = cellItemHeight + CGFloat(20)
+
         collectionView.snp.makeConstraints { make in
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.top.equalToSuperview().offset(100)
-            make.height.equalTo(310)
+            make.height.equalTo(heightCollectionView)
         }
         
         musicView.snp.makeConstraints { make in
@@ -71,6 +80,46 @@ class MusicViewController: UIViewController, MusicViewProtocol {
             make.top.equalTo(collectionView.snp.bottom).offset(72)
             make.bottom.equalToSuperview()
         }
+    }
+}
+
+extension MusicViewController: MusicViewProtocol {
+    func changeCellPosition(velocity: CGPoint,
+                                    targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        guard let data = presenter?.getSongs() else { return }
+        let currentPageWidth = cellItemWidth + cellContentInset - cellSpacing
+        var newIndex = currentIndex
+        var newCellWidth: CGFloat = 0
+        collectionView.reloadItems(at: [IndexPath(row: currentIndex, section: 0)])
+        if currentIndex != 0 {
+            newCellWidth = cellItemWidth + cellContentInset
+        }
+        if velocity.x != 0 {
+            newIndex = velocity.x > 0 ? currentIndex + 1 : currentIndex - 1
+            if newIndex < 0 {
+                newIndex = data.count - 1
+            }
+            if newIndex > data.count - 1 {
+                newIndex = 0
+            }
+        }
+        currentIndex = newIndex
+        let xPoint = CGFloat(newIndex - 1) * newCellWidth + currentPageWidth
+        targetContentOffset.pointee = CGPoint (x: xPoint,
+                                               y: 0)
+    }
+    
+    func reloadDataCell(index: Int) {
+        guard presenter?.getSongs().count != nil,
+                let data = presenter?.getSongs()[index] else {
+            musicView.songNameLabel.text = ""
+            musicView.musicanNameLabel.text = ""
+            return
+        }
+        
+        presenter?.prepareToPlay(index: index)
+        musicView.songNameLabel.text = data.name
+        musicView.musicanNameLabel.text = data.singer
     }
 }
 
@@ -91,6 +140,17 @@ extension MusicViewController: UICollectionViewDataSource, UICollectionViewDeleg
             cell.songImageView.image = presenter?.getSongImage(index: indexPath.row)
         }
         return cell
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView,
+                                   withVelocity velocity: CGPoint,
+                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+        changeCellPosition(velocity: velocity,
+                           targetContentOffset: targetContentOffset)
+        
+        reloadDataCell(index: currentIndex)
+        presenter?.playMusic()
     }
 }
 

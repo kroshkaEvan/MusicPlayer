@@ -6,7 +6,10 @@
 //
 
 import Foundation
+import UIKit
 
 protocol MusicViewProtocol: AnyObject {
-
+    func changeCellPosition(velocity: CGPoint,
+                            targetContentOffset: UnsafeMutablePointer<CGPoint>)
+    func reloadDataCell(index: Int)
 }

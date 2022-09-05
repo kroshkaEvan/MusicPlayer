@@ -56,9 +56,10 @@ class MusicCollectionViewCell: UICollectionViewCell {
          songImageView].forEach( {addSubview($0)} )
         
         songImageView.snp.makeConstraints({ make in
-            make.centerX.equalToSuperview()
-            make.width.equalTo(310)
-            make.height.equalTo(310)
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
         })
         
         transparentView.snp.makeConstraints({ make in

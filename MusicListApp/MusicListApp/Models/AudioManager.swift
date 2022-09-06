@@ -11,8 +11,13 @@ import AVFoundation
 import MediaPlayer
 
 protocol AudioManagerProtocol: AnyObject {
-    func prepareToPlay(index: Int)
+//    var audioPlayer: AVAudioPlayer? {}
+//    var duration: TimeInterval? {get set}
+    func prepareToPlay(filePath: String)
     func playAudio()
+    func getTime(_ type: Time) -> TimeInterval
+    func setPlayer() -> Music
+
 }
 
 class AudioManager: NSObject, AudioManagerProtocol, AVAudioPlayerDelegate {
@@ -20,23 +25,61 @@ class AudioManager: NSObject, AudioManagerProtocol, AVAudioPlayerDelegate {
     
     private var audioPlayer: AVAudioPlayer?
     
-    func prepareToPlay(index: Int) {
-        let audioURL = URL(fileURLWithPath: Bundle.main.path(forResource: DataSongs.data[index].filePath,
-                                                              ofType: "mp3") ?? "")
-        try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category(rawValue: AVAudioSession.Category.playback.rawValue))
-        try? AVAudioSession.sharedInstance().setActive(true)
-        UIApplication.shared.beginReceivingRemoteControlEvents()
-        audioPlayer = try? AVAudioPlayer(contentsOf: audioURL)
-        audioPlayer?.delegate = self
-        audioPlayer?.prepareToPlay()
+    func prepareToPlay(filePath: String) {
+        guard let audioURL = Bundle.main.url(forResource: filePath,
+                                             withExtension: "mp3") else {return}
+        do {
+            try audioPlayer = AVAudioPlayer(contentsOf: audioURL)
+            audioPlayer?.delegate = self
+            audioPlayer?.prepareToPlay()
+            
+            try AVAudioSession.sharedInstance().setCategory(.playback)
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func setPlayer() -> Music {
+//        guard let isPlaying = audioPlayer?.isPlaying,
+//              let duration = audioPlayer?.duration else { return Music(isPlaying: false,
+//                                                                       maxValue: 0.0)}
+        guard let audioPlayer = audioPlayer else {return Music(isPlaying: false,
+                                                               maxValue: 0,
+                                                               currentTime: 0,
+                                                               remaningTime: 0)}
+        
+//        return Music(isPlaying: isPlaying,
+//                     maxValue: Float(duration))
+        print("\(audioPlayer.duration - audioPlayer.currentTime)")
+        return Music(isPlaying: audioPlayer.isPlaying,
+                     maxValue: Float(audioPlayer.duration),
+                     currentTime: audioPlayer.currentTime,
+                     remaningTime: audioPlayer.duration - audioPlayer.currentTime)
+
     }
     
     func playAudio() {
         guard let isPlaying = audioPlayer?.isPlaying else { return }
         if isPlaying {
-            audioPlayer?.stop()
+            audioPlayer?.pause()
         } else {
             audioPlayer?.play()
         }
+    }
+    
+    func getTime(_ type: Time) -> TimeInterval {
+        guard let audioPlayer = audioPlayer else {return 0}
+        switch type {
+        case .current:
+            return audioPlayer.currentTime
+        case .remaning:
+            return audioPlayer.duration - audioPlayer.currentTime
+        }
+//        if type == .current {
+//            return audioPlayer.currentTime
+//        } else {
+//            return audioPlayer.duration - audioPlayer.currentTime
+//        }
     }
 }

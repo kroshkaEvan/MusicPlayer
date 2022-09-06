@@ -90,9 +90,32 @@ class MusicView: UIView {
         return slider
     }()
     
+    lazy var currentTimeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "00:00"
+        label.textAlignment = .left
+        label.textColor = .lightGray
+        label.layer.masksToBounds = true
+        label.font = .systemFont(ofSize: 12,
+                                 weight: .light)
+        return label
+    }()
+    
+    lazy var remaningTimeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "00:00"
+        label.textAlignment = .right
+        label.textColor = .lightGray
+        label.layer.masksToBounds = true
+        label.font = .systemFont(ofSize: 12,
+                                 weight: .light)
+        return label
+    }()
+    
     lazy var playMusicButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "play.fill"),
+        let configImage = UIImage.SymbolConfiguration(pointSize: 44)
+        button.setImage(UIImage(systemName: "play.fill", withConfiguration: configImage),
                         for: .normal)
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowRadius = 15
@@ -147,7 +170,7 @@ class MusicView: UIView {
         
         [collectionView, songNameLabel, musicanNameLabel,
          musicSlider, playMusicButton, backwardMusicButton,
-        nextMusicButton].forEach({ addSubview($0)})
+        nextMusicButton, remaningTimeLabel, currentTimeLabel].forEach({ addSubview($0)})
         
         let heightCollectionView = cellItemHeight + CGFloat(20)
 
@@ -176,6 +199,20 @@ class MusicView: UIView {
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-22)
             make.top.equalTo(musicanNameLabel.snp.bottom).offset(42)
+        }
+        
+        currentTimeLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(16)
+            make.top.equalTo(musicSlider.snp.bottom).offset(8)
+            make.height.equalTo(20)
+            make.width.equalTo(40)
+        }
+        
+        remaningTimeLabel.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-16)
+            make.top.equalTo(musicSlider.snp.bottom).offset(8)
+            make.height.equalTo(20)
+            make.width.equalTo(40)
         }
         
         playMusicButton.snp.makeConstraints { make in

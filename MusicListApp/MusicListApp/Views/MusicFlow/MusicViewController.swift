@@ -10,7 +10,7 @@ import SnapKit
 
 class MusicViewController: UIViewController {
     
-    private var musicView: MusicView? {
+    var musicView: MusicView? {
         guard isViewLoaded else { return nil }
         return view as? MusicView
     }
@@ -49,17 +49,26 @@ class MusicViewController: UIViewController {
         musicView?.nextMusicButton.addTarget(self,
                                              action: #selector(didTapNextMusic),
                                              for: .touchUpInside)
+        musicView?.musicSlider.addTarget(self,
+                                         action: #selector(updateSlider(_ :)),
+                                         for: .valueChanged)
+    }
+    
+    private func setPlayPauseIcon(isPlaying: Bool) {
+        let configImage = UIImage.SymbolConfiguration(pointSize: 44)
+        musicView?.playMusicButton.setImage(UIImage(systemName: isPlaying ? "play.fill" : "pause.fill",
+                                                    withConfiguration: configImage),
+                                            for: .normal)
     }
     
     private func flipAudio(next: Bool) {
-        guard let data = presenter?.getSongs() else { return }
+        guard let data = presenter?.music?.data else { return }
         var index = 0
         if next {
             index = currentIndex == data.count - 1 ? 0 : currentIndex + 1
         } else {
             index = currentIndex == 0 ? data.count - 1 : currentIndex - 1
         }
-        
         musicView?.collectionView.scrollToItem(at: IndexPath(row: index, section: 0),
                                                at: .centeredHorizontally,
                                                animated: false)
@@ -69,7 +78,13 @@ class MusicViewController: UIViewController {
     }
     
     @objc private func didTapPlayMusic() {
+        guard let isPlaying = presenter?.music?.isPlaying,
+              let maxValue = presenter?.music?.maxValue else {return}
+
+        setPlayPauseIcon(isPlaying: isPlaying)
         presenter?.playMusic()
+//        musicView?.musicSlider.value = 0.0
+        musicView?.musicSlider.maximumValue = maxValue
     }
     
     @objc private func didTapPreviousMusic() {
@@ -79,12 +94,17 @@ class MusicViewController: UIViewController {
     @objc private func didTapNextMusic() {
         flipAudio(next: true)
     }
+    
+    @objc private func updateSlider(_ sender: UISlider) {
+        presenter?.music?.currentTime = Float64(musicView?.musicSlider.value ?? 0)
+    }
 }
 
 extension MusicViewController: MusicViewProtocol {
+    
     func changeCellPosition(velocity: CGPoint,
                             targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        guard let data = presenter?.getSongs() else { return }
+        guard let data = presenter?.music?.data else { return }
         if let cellItemWidth = musicView?.cellItemWidth,
            let cellContentInset = musicView?.cellContentInset,
            let cellSpacing = musicView?.cellSpacing {
@@ -113,8 +133,8 @@ extension MusicViewController: MusicViewProtocol {
     }
     
     func reloadDataCell(index: Int) {
-        guard presenter?.getSongs().count != nil,
-              let data = presenter?.getSongs()[index] else {
+        guard presenter?.music?.data.count != nil,
+              let data = presenter?.music?.data[index] else {
                   musicView?.songNameLabel.text = ""
                   musicView?.musicanNameLabel.text = ""
                   return
@@ -132,14 +152,14 @@ extension MusicViewController: UICollectionViewDataSource, UICollectionViewDeleg
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presenter?.getSongs().count ?? 3
+        return presenter?.music?.data.count ?? 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MusicCollectionViewCell.identifier,
                                                       for: indexPath)
         if let cell = cell as? MusicCollectionViewCell {
-            cell.songImageView.image = presenter?.getSongImage(index: indexPath.row)
+            cell.songImageView.image = presenter?.setImage(index: indexPath.row)
         }
         return cell
     }

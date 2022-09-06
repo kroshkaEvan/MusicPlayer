@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 protocol MusicViewProtocol: AnyObject {
+    var musicView: MusicView? {get}
     func changeCellPosition(velocity: CGPoint,
                             targetContentOffset: UnsafeMutablePointer<CGPoint>)
     func reloadDataCell(index: Int)

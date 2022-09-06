@@ -11,13 +11,9 @@ import AVFoundation
 import MediaPlayer
 
 protocol AudioManagerProtocol: AnyObject {
-//    var audioPlayer: AVAudioPlayer? {}
-//    var duration: TimeInterval? {get set}
     func prepareToPlay(filePath: String)
     func playAudio()
     func getTime(_ type: Time) -> TimeInterval
-    func setPlayer() -> Music
-
 }
 
 class AudioManager: NSObject, AudioManagerProtocol, AVAudioPlayerDelegate {
@@ -32,31 +28,11 @@ class AudioManager: NSObject, AudioManagerProtocol, AVAudioPlayerDelegate {
             try audioPlayer = AVAudioPlayer(contentsOf: audioURL)
             audioPlayer?.delegate = self
             audioPlayer?.prepareToPlay()
-            
             try AVAudioSession.sharedInstance().setCategory(.playback)
             try AVAudioSession.sharedInstance().setActive(true)
         } catch let error {
             print(error.localizedDescription)
         }
-    }
-    
-    func setPlayer() -> Music {
-//        guard let isPlaying = audioPlayer?.isPlaying,
-//              let duration = audioPlayer?.duration else { return Music(isPlaying: false,
-//                                                                       maxValue: 0.0)}
-        guard let audioPlayer = audioPlayer else {return Music(isPlaying: false,
-                                                               maxValue: 0,
-                                                               currentTime: 0,
-                                                               remaningTime: 0)}
-        
-//        return Music(isPlaying: isPlaying,
-//                     maxValue: Float(duration))
-        print("\(audioPlayer.duration - audioPlayer.currentTime)")
-        return Music(isPlaying: audioPlayer.isPlaying,
-                     maxValue: Float(audioPlayer.duration),
-                     currentTime: audioPlayer.currentTime,
-                     remaningTime: audioPlayer.duration - audioPlayer.currentTime)
-
     }
     
     func playAudio() {
@@ -67,7 +43,7 @@ class AudioManager: NSObject, AudioManagerProtocol, AVAudioPlayerDelegate {
             audioPlayer?.play()
         }
     }
-    
+
     func getTime(_ type: Time) -> TimeInterval {
         guard let audioPlayer = audioPlayer else {return 0}
         switch type {
@@ -76,10 +52,5 @@ class AudioManager: NSObject, AudioManagerProtocol, AVAudioPlayerDelegate {
         case .remaning:
             return audioPlayer.duration - audioPlayer.currentTime
         }
-//        if type == .current {
-//            return audioPlayer.currentTime
-//        } else {
-//            return audioPlayer.duration - audioPlayer.currentTime
-//        }
     }
 }

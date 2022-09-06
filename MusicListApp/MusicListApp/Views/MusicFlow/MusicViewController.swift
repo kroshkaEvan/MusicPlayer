@@ -17,6 +17,7 @@ class MusicViewController: UIViewController {
     
     var presenter: MainPresenterProtocol?
     var currentIndex = 0
+    var isPlaying = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,9 +50,6 @@ class MusicViewController: UIViewController {
         musicView?.nextMusicButton.addTarget(self,
                                              action: #selector(didTapNextMusic),
                                              for: .touchUpInside)
-        musicView?.musicSlider.addTarget(self,
-                                         action: #selector(updateSlider(_ :)),
-                                         for: .valueChanged)
     }
     
     private func setPlayPauseIcon(isPlaying: Bool) {
@@ -78,13 +76,9 @@ class MusicViewController: UIViewController {
     }
     
     @objc private func didTapPlayMusic() {
-        guard let isPlaying = presenter?.music?.isPlaying,
-              let maxValue = presenter?.music?.maxValue else {return}
-
+        isPlaying.toggle()
         setPlayPauseIcon(isPlaying: isPlaying)
         presenter?.playMusic()
-//        musicView?.musicSlider.value = 0.0
-        musicView?.musicSlider.maximumValue = maxValue
     }
     
     @objc private func didTapPreviousMusic() {
@@ -93,10 +87,6 @@ class MusicViewController: UIViewController {
     
     @objc private func didTapNextMusic() {
         flipAudio(next: true)
-    }
-    
-    @objc private func updateSlider(_ sender: UISlider) {
-        presenter?.music?.currentTime = Float64(musicView?.musicSlider.value ?? 0)
     }
 }
 

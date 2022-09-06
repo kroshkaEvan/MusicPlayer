@@ -15,6 +15,7 @@ protocol MainPresenterProtocol: AnyObject {
     func setImage(index: Int) -> UIImage?
     func prepareToPlay(index: Int)
     func playMusic()
+    func setMusicPlayer()
 }
 
 class MusicPresenter: MainPresenterProtocol {
@@ -39,7 +40,7 @@ class MusicPresenter: MainPresenterProtocol {
     // MARK: - Methods
     
     func setMusicPlayer() {
-        self.music = audioManager?.setPlayer()
+        self.music = Music()
     }
     
     func setImage(index: Int) -> UIImage? {
@@ -83,6 +84,7 @@ class MusicPresenter: MainPresenterProtocol {
         guard let currentTime = audioManager?.getTime(.current),
               let remaningTime = audioManager?.getTime(.remaning) else {return}
         view?.musicView?.musicSlider.value = Float(currentTime)
+        view?.musicView?.musicSlider.maximumValue = Float(currentTime + remaningTime)
         view?.musicView?.currentTimeLabel.text = getFormattedTime(currentTime)
         view?.musicView?.remaningTimeLabel.text = getFormattedTime(remaningTime)
     }

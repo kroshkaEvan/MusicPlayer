@@ -10,48 +10,22 @@ import SnapKit
 
 class MusicViewController: UIViewController {
     
-    lazy var width = view.frame.size.width
-    lazy var cellItemHeight: CGFloat = width * 0.75
-    lazy var cellItemWidth: CGFloat = width * 0.8
-    lazy var cellContentInset: CGFloat = width * 0.1
-    lazy var cellSpacing: CGFloat = (width - cellItemWidth) / 2
-
-    private lazy var musicView = MusicView()
-    
-    private lazy var collectionViewLayout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = cellSpacing
-        layout.itemSize = CGSize(width: cellItemWidth,
-                                 height: cellItemHeight)
-        return layout
-    }()
-    
-    private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero,
-                                              collectionViewLayout: collectionViewLayout)
-        collectionView.backgroundColor = .clear
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: cellContentInset,
-                                                   bottom: 0, right: cellContentInset)
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(MusicCollectionViewCell.self,
-                                forCellWithReuseIdentifier: MusicCollectionViewCell.identifier)
-        collectionView.backgroundColor = UIColor(red: 29/255,
-                                                 green: 23/255,
-                                                 blue: 38/255,
-                                                 alpha: 1)
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        return collectionView
-    }()
+    private var musicView: MusicView? {
+        guard isViewLoaded else { return nil }
+        return view as? MusicView
+    }
     
     var presenter: MainPresenterProtocol?
     var currentIndex = 0
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
         addAllAction()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         reloadDataCell(index: currentIndex)
     }
     
@@ -60,40 +34,21 @@ class MusicViewController: UIViewController {
     }
     
     private func setupLayout() {
-        view.backgroundColor = UIColor(red: 29/255,
-                                       green: 23/255,
-                                       blue: 38/255,
-                                       alpha: 1)
-        
-        [musicView, collectionView].forEach({ view.addSubview($0)})
-        
-        let heightCollectionView = cellItemHeight + CGFloat(20)
-
-        collectionView.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.top.equalToSuperview().offset(100)
-            make.height.equalTo(heightCollectionView)
-        }
-        
-        musicView.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.top.equalTo(collectionView.snp.bottom).offset(72)
-            make.bottom.equalToSuperview()
-        }
+        view = MusicView()
+        musicView?.collectionView.dataSource = self
+        musicView?.collectionView.delegate = self
     }
     
     private func addAllAction() {
-        musicView.playMusicButton.addTarget(self,
-                                            action: #selector(didTapPlayMusic),
-                                            for: .touchUpInside)
-        musicView.backwardMusicButton.addTarget(self,
-                                                action: #selector(didTapPreviousMusic),
-                                                for: .touchUpInside)
-        musicView.nextMusicButton.addTarget(self,
-                                            action: #selector(didTapNextMusic),
-                                            for: .touchUpInside)
+        musicView?.playMusicButton.addTarget(self,
+                                             action: #selector(didTapPlayMusic),
+                                             for: .touchUpInside)
+        musicView?.backwardMusicButton.addTarget(self,
+                                                 action: #selector(didTapPreviousMusic),
+                                                 for: .touchUpInside)
+        musicView?.nextMusicButton.addTarget(self,
+                                             action: #selector(didTapNextMusic),
+                                             for: .touchUpInside)
     }
     
     private func flipAudio(next: Bool) {
@@ -105,9 +60,9 @@ class MusicViewController: UIViewController {
             index = currentIndex == 0 ? data.count - 1 : currentIndex - 1
         }
         
-        collectionView.scrollToItem(at: IndexPath(row: index, section: 0),
-                                    at: .centeredHorizontally,
-                                    animated: false)
+        musicView?.collectionView.scrollToItem(at: IndexPath(row: index, section: 0),
+                                               at: .centeredHorizontally,
+                                               animated: false)
         currentIndex = index
         reloadDataCell(index: currentIndex)
         presenter?.playMusic()
@@ -128,40 +83,45 @@ class MusicViewController: UIViewController {
 
 extension MusicViewController: MusicViewProtocol {
     func changeCellPosition(velocity: CGPoint,
-                                    targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+                            targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         guard let data = presenter?.getSongs() else { return }
-        let currentPageWidth = cellItemWidth + cellContentInset - cellSpacing
-        var newIndex = currentIndex
-        var newCellWidth: CGFloat = 0
-        collectionView.reloadItems(at: [IndexPath(row: currentIndex, section: 0)])
-        if currentIndex != 0 {
-            newCellWidth = cellItemWidth + cellContentInset
-        }
-        if velocity.x != 0 {
-            newIndex = velocity.x > 0 ? currentIndex + 1 : currentIndex - 1
-            if newIndex < 0 {
-                newIndex = data.count - 1
+        if let cellItemWidth = musicView?.cellItemWidth,
+           let cellContentInset = musicView?.cellContentInset,
+           let cellSpacing = musicView?.cellSpacing {
+            let currentCellWidth = cellItemWidth + cellContentInset - cellSpacing
+            var newIndex = currentIndex
+            var newCellWidth: CGFloat = 0
+            musicView?.collectionView.reloadItems(at: [IndexPath(row: currentIndex,
+                                                                 section: 0)])
+            if currentIndex != 0 {
+                newCellWidth = cellItemWidth + cellContentInset
             }
-            if newIndex > data.count - 1 {
-                newIndex = 0
+            if velocity.x != 0 {
+                newIndex = velocity.x > 0 ? currentIndex + 1 : currentIndex - 1
+                if newIndex < 0 {
+                    newIndex = data.count - 1
+                }
+                if newIndex > data.count - 1 {
+                    newIndex = 0
+                }
             }
+            currentIndex = newIndex
+            let xPoint = CGFloat(newIndex - 1) * newCellWidth + currentCellWidth
+            targetContentOffset.pointee = CGPoint(x: xPoint,
+                                                  y: 0)
         }
-        currentIndex = newIndex
-        let xPoint = CGFloat(newIndex - 1) * newCellWidth + currentPageWidth
-        targetContentOffset.pointee = CGPoint (x: xPoint,
-                                               y: 0)
     }
     
     func reloadDataCell(index: Int) {
         guard presenter?.getSongs().count != nil,
-                let data = presenter?.getSongs()[index] else {
-            musicView.songNameLabel.text = ""
-            musicView.musicanNameLabel.text = ""
-            return
-        }
+              let data = presenter?.getSongs()[index] else {
+                  musicView?.songNameLabel.text = ""
+                  musicView?.musicanNameLabel.text = ""
+                  return
+              }
         presenter?.prepareToPlay(index: index)
-        musicView.songNameLabel.text = data.name
-        musicView.musicanNameLabel.text = data.singer
+        musicView?.songNameLabel.text = data.name
+        musicView?.musicanNameLabel.text = data.singer
     }
 }
 

@@ -9,8 +9,41 @@ import UIKit
 import SnapKit
 
 class MusicView: UIView {
-    
+        
     //MARK: - Views
+    
+    private lazy var collectionViewLayout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = cellSpacing
+        layout.itemSize = CGSize(width: cellItemWidth,
+                                 height: cellItemHeight)
+        return layout
+    }()
+    
+    lazy var width: CGFloat = UIScreen.main.bounds.width
+    lazy var cellItemHeight: CGFloat = width * 0.75
+    lazy var cellItemWidth: CGFloat = width * 0.8
+    lazy var cellContentInset: CGFloat = width * 0.1
+    lazy var cellSpacing: CGFloat = (width - cellItemWidth) / 2
+    
+    lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero,
+                                              collectionViewLayout: collectionViewLayout)
+        collectionView.backgroundColor = .clear
+        collectionView.contentInset = UIEdgeInsets(top: 0,
+                                                   left: cellContentInset,
+                                                   bottom: 0,
+                                                   right: cellContentInset)
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.register(MusicCollectionViewCell.self,
+                                forCellWithReuseIdentifier: MusicCollectionViewCell.identifier)
+        collectionView.backgroundColor = UIColor(red: 29/255,
+                                                 green: 23/255,
+                                                 blue: 38/255,
+                                                 alpha: 1)
+        return collectionView
+    }()
     
     lazy var songNameLabel: UILabel = {
         let label = UILabel()
@@ -112,14 +145,23 @@ class MusicView: UIView {
                                   blue: 38/255,
                                   alpha: 1)
         
-        [ songNameLabel, musicanNameLabel,
+        [collectionView, songNameLabel, musicanNameLabel,
          musicSlider, playMusicButton, backwardMusicButton,
         nextMusicButton].forEach({ addSubview($0)})
+        
+        let heightCollectionView = cellItemHeight + CGFloat(20)
+
+        collectionView.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.top.equalToSuperview().offset(100)
+            make.height.equalTo(heightCollectionView)
+        }
                 
         songNameLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-22)
-            make.top.equalToSuperview()
+            make.top.equalTo(collectionView.snp.bottom).offset(72)
             make.height.equalTo(20)
         }
         

@@ -37,10 +37,13 @@ class MusicPresenter: MainPresenterProtocol {
         setMusicPlayer()
     }
     
-    // MARK: - Methods
+    // MARK: - Public Methods
     
     func setMusicPlayer() {
         self.music = Music()
+        music?.data.forEach({ song in
+            audioManager?.downloadFile(song.filePath)
+        })
     }
     
     func setImage(index: Int) -> UIImage? {
@@ -67,6 +70,8 @@ class MusicPresenter: MainPresenterProtocol {
             timer = nil
         }
     }
+    
+    // MARK: - Private Methods
     
     private func getFormattedTime(_ timeInterval: TimeInterval) -> String {
         let minutes = timeInterval / 60

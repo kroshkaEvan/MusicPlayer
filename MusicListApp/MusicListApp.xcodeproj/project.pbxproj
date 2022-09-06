@@ -23,7 +23,7 @@
 		BCA95E5328C52DE6009B052B /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA95E5228C52DE6009B052B /* AudioManager.swift */; };
 		BCA95E5528C53DD4009B052B /* MusicViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA95E5428C53DD4009B052B /* MusicViewProtocol.swift */; };
 		BCA95E5728C54B37009B052B /* ModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA95E5628C54B37009B052B /* ModuleBuilder.swift */; };
-		BCA95E5A28C7300D009B052B /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA95E5928C7300D009B052B /* Timer.swift */; };
+		BCA95E5A28C7300D009B052B /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA95E5928C7300D009B052B /* Time.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,7 +44,7 @@
 		BCA95E5228C52DE6009B052B /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		BCA95E5428C53DD4009B052B /* MusicViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicViewProtocol.swift; sourceTree = "<group>"; };
 		BCA95E5628C54B37009B052B /* ModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleBuilder.swift; sourceTree = "<group>"; };
-		BCA95E5928C7300D009B052B /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
+		BCA95E5928C7300D009B052B /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,7 +92,7 @@
 			children = (
 				BCA95E4D28C5270D009B052B /* Song.swift */,
 				BCA95E5228C52DE6009B052B /* AudioManager.swift */,
-				BCA95E5928C7300D009B052B /* Timer.swift */,
+				BCA95E5928C7300D009B052B /* Time.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -235,7 +235,7 @@
 				BC84B67828C250B700D877CC /* AppDelegate.swift in Sources */,
 				BC84B67A28C250B700D877CC /* SceneDelegate.swift in Sources */,
 				BCA95E4428C51568009B052B /* MusicView.swift in Sources */,
-				BCA95E5A28C7300D009B052B /* Timer.swift in Sources */,
+				BCA95E5A28C7300D009B052B /* Time.swift in Sources */,
 				BCA95E4228C5123A009B052B /* MusicCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

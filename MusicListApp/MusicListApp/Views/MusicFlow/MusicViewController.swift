@@ -10,14 +10,20 @@ import SnapKit
 
 class MusicViewController: UIViewController {
     
+    // MARK: - View
+    
     var musicView: MusicView? {
         guard isViewLoaded else { return nil }
         return view as? MusicView
     }
     
+    // MARK: - Properties
+    
     var presenter: MainPresenterProtocol?
     var currentIndex = 0
-    var isPlaying = true
+    var isPlaying: Bool = true
+    
+    // MARK: - Initializers
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +39,8 @@ class MusicViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
     }
+    
+    // MARK: - Private Methods
     
     private func setupLayout() {
         view = MusicView()
@@ -72,7 +80,9 @@ class MusicViewController: UIViewController {
                                                animated: false)
         currentIndex = index
         reloadDataCell(index: currentIndex)
+        isPlaying = false
         presenter?.playMusic()
+        setPlayPauseIcon(isPlaying: isPlaying)
     }
     
     @objc private func didTapPlayMusic() {
@@ -161,6 +171,8 @@ extension MusicViewController: UICollectionViewDataSource, UICollectionViewDeleg
                            targetContentOffset: targetContentOffset)
         reloadDataCell(index: currentIndex)
         presenter?.playMusic()
+        isPlaying = false
+        setPlayPauseIcon(isPlaying: isPlaying)
     }
 }
 

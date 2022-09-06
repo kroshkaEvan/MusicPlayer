@@ -10,8 +10,6 @@ import SnapKit
 
 class MusicView: UIView {
         
-    //MARK: - Views
-    
     private lazy var collectionViewLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -22,11 +20,14 @@ class MusicView: UIView {
     }()
     
     lazy var width: CGFloat = UIScreen.main.bounds.width
+    lazy var height: CGFloat = UIScreen.main.bounds.height
     lazy var cellItemHeight: CGFloat = width * 0.75
     lazy var cellItemWidth: CGFloat = width * 0.8
     lazy var cellContentInset: CGFloat = width * 0.1
     lazy var cellSpacing: CGFloat = (width - cellItemWidth) / 2
     
+    //MARK: - Views
+
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: collectionViewLayout)
@@ -38,10 +39,7 @@ class MusicView: UIView {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(MusicCollectionViewCell.self,
                                 forCellWithReuseIdentifier: MusicCollectionViewCell.identifier)
-        collectionView.backgroundColor = UIColor(red: 29/255,
-                                                 green: 23/255,
-                                                 blue: 38/255,
-                                                 alpha: 1)
+        collectionView.backgroundColor = Color.darkPurpleAppColor
         return collectionView
     }()
     
@@ -58,7 +56,7 @@ class MusicView: UIView {
     lazy var songLabelGradienLayer: CAGradientLayer = {
         let gradienLayer = CAGradientLayer()
         gradienLayer.colors = [UIColor.clear.cgColor,
-                               UIColor.black.cgColor]
+                               Color.darkPurpleAppColor.cgColor]
         gradienLayer.startPoint = CGPoint(x: 0.5,
                                           y: 0.5)
         gradienLayer.endPoint = CGPoint(x: 1.0,
@@ -79,14 +77,10 @@ class MusicView: UIView {
     
     lazy var musicSlider: UISlider = {
         let slider = UISlider()
-        slider.thumbTintColor = UIColor(red: 130/255,
-                                        green: 87/255,
-                                        blue: 231/255,
-                                        alpha: 1)
-        slider.tintColor = UIColor(red: 130/255,
-                                   green: 87/255,
-                                   blue: 231/255,
-                                   alpha: 1)
+        slider.maximumTrackTintColor = Color.lightPurpleAppColorAlpha
+        slider.thumbTintColor = Color.lightPurpleAppColorAlpha
+        slider.tintColor = Color.lightPurpleAppColor
+        slider.isUserInteractionEnabled = false
         return slider
     }()
     
@@ -115,17 +109,15 @@ class MusicView: UIView {
     lazy var playMusicButton: UIButton = {
         let button = UIButton()
         let configImage = UIImage.SymbolConfiguration(pointSize: 44)
-        button.setImage(UIImage(systemName: "play.fill", withConfiguration: configImage),
+        button.setImage(UIImage(systemName: "play.fill",
+                                withConfiguration: configImage),
                         for: .normal)
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowRadius = 15
         button.layer.shadowOpacity = 5
         button.layer.cornerRadius = 40
         button.tintColor = .white
-        button.backgroundColor = UIColor(red: 29/255,
-                                         green: 23/255,
-                                         blue: 38/255,
-                                         alpha: 1)
+        button.backgroundColor = Color.darkPurpleAppColor
         return button
     }()
     
@@ -145,6 +137,15 @@ class MusicView: UIView {
         button.backgroundColor = .clear
         button.tintColor = .white
         return button
+    }()
+    
+    lazy var buttonsStackView: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [backwardMusicButton,
+                                                  playMusicButton,
+                                                  nextMusicButton])
+        view.spacing = 25
+        view.axis = .horizontal
+        return view
     }()
     
     // MARK: - Initializers
@@ -169,22 +170,27 @@ class MusicView: UIView {
                                   alpha: 1)
         
         [collectionView, songNameLabel, musicanNameLabel,
-         musicSlider, playMusicButton, backwardMusicButton,
-        nextMusicButton, remaningTimeLabel, currentTimeLabel].forEach({ addSubview($0)})
+         musicSlider, remaningTimeLabel,
+         currentTimeLabel, buttonsStackView].forEach({ addSubview($0)})
         
-        let heightCollectionView = cellItemHeight + CGFloat(20)
+        let heightCollectionView: CGFloat = cellItemHeight + CGFloat(20)
+        let topOffsetCollectionView: CGFloat = height * 0.1
+        let topOffsetSongNameLabel: CGFloat = height * 0.07
+        let topOffsetButtons: CGFloat = height * 0.075
+        let topOffsetSlider: CGFloat = height * 0.042
 
+        
         collectionView.snp.makeConstraints { make in
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
-            make.top.equalToSuperview().offset(100)
+            make.top.equalToSuperview().offset(topOffsetCollectionView)
             make.height.equalTo(heightCollectionView)
         }
                 
         songNameLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
-            make.trailing.equalToSuperview().offset(-22)
-            make.top.equalTo(collectionView.snp.bottom).offset(72)
+            make.trailing.equalToSuperview().offset(-50)
+            make.top.equalTo(collectionView.snp.bottom).offset(topOffsetSongNameLabel)
             make.height.equalTo(20)
         }
         
@@ -197,8 +203,8 @@ class MusicView: UIView {
         
         musicSlider.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
-            make.trailing.equalToSuperview().offset(-22)
-            make.top.equalTo(musicanNameLabel.snp.bottom).offset(42)
+            make.trailing.equalToSuperview().offset(-16)
+            make.top.equalTo(musicanNameLabel.snp.bottom).offset(topOffsetSlider)
         }
         
         currentTimeLabel.snp.makeConstraints { make in
@@ -215,25 +221,15 @@ class MusicView: UIView {
             make.width.equalTo(40)
         }
         
-        playMusicButton.snp.makeConstraints { make in
+        buttonsStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.height.equalTo(80)
+            make.top.equalTo(musicSlider.snp.bottom).offset(topOffsetButtons)
+        }
+        
+        playMusicButton.snp.makeConstraints { make in
+            make.height.equalTo(80)
             make.width.equalTo(80)
-            make.top.equalTo(musicSlider.snp.bottom).offset(78)
-        }
-        
-        nextMusicButton.snp.makeConstraints { make in
-            make.leading.equalTo(playMusicButton.snp.trailing).offset(10)
-            make.height.equalTo(45)
-            make.width.equalTo(45)
-            make.centerY.equalTo(playMusicButton.snp.centerY)
-        }
-        
-        backwardMusicButton.snp.makeConstraints { make in
-            make.trailing.equalTo(playMusicButton.snp.leading).offset(-10)
-            make.height.equalTo(45)
-            make.width.equalTo(45)
-            make.centerY.equalTo(playMusicButton.snp.centerY)
         }
         
     }
@@ -244,3 +240,22 @@ class MusicView: UIView {
     }
 }
 
+// MARK: - Constants
+
+extension MusicView {
+    
+    enum Color {
+        static let lightPurpleAppColor = UIColor(red: 130/255,
+                                                 green: 87/255,
+                                                 blue: 231/255,
+                                                 alpha: 1)
+        static let lightPurpleAppColorAlpha = UIColor(red: 130/255,
+                                                      green: 87/255,
+                                                      blue: 231/255,
+                                                      alpha: 0.3)
+        static let darkPurpleAppColor = UIColor(red: 29/255,
+                                                green: 23/255,
+                                                blue: 38/255,
+                                                alpha: 1)
+    }
+}

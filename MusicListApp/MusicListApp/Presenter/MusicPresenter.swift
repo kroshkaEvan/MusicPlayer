@@ -54,11 +54,7 @@ class MusicPresenter: MainPresenterProtocol {
         guard let filePath = music?.data[index].filePath else {return}
         audioManager?.prepareToPlay(filePath: filePath)
         if timer == nil {
-            timer = Timer.scheduledTimer(timeInterval: 1,
-                                         target: self,
-                                         selector: #selector(updateTime),
-                                         userInfo: nil,
-                                         repeats: true)
+            startTimer()
         }
     }
     
@@ -68,6 +64,8 @@ class MusicPresenter: MainPresenterProtocol {
         if isPlaying {
             timer?.invalidate()
             timer = nil
+        } else {
+            startTimer()
         }
     }
     
@@ -83,6 +81,14 @@ class MusicPresenter: MainPresenterProtocol {
         guard let minuteString = timeFormatter.string(from: NSNumber(value: minutes)),
               let secondString = timeFormatter.string(from: NSNumber(value: seconds)) else { return "00:00"}
         return "\(minuteString):\(secondString)"
+    }
+    
+    private func startTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 1,
+                                     target: self,
+                                     selector: #selector(updateTime),
+                                     userInfo: nil,
+                                     repeats: true)
     }
     
     @objc open func updateTime() {

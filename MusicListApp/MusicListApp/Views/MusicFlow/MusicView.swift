@@ -27,7 +27,24 @@ class MusicView: UIView {
     lazy var cellSpacing: CGFloat = (width - cellItemWidth) / 2
     
     //MARK: - Views
-
+    
+    private lazy var blueShadowView: UIView = {
+        let view = UIView()
+        let sizeBlueView: CGFloat = width * 0.6
+        view.layer.opacity = 1
+        view.layer.shadowColor = UIColor.blue.cgColor
+        view.layer.shadowOffset = .zero
+        view.layer.shadowRadius = 70
+        view.layer.shadowOpacity = 0.7
+        view.backgroundColor = Color.darkPurpleAppColor
+        let bezierPath = CGRect(x: -(sizeBlueView / 2),
+                                y: sizeBlueView / 3,
+                                width: sizeBlueView,
+                                height: sizeBlueView)
+        view.layer.shadowPath = UIBezierPath(ovalIn: bezierPath).cgPath
+        return view
+    }()
+    
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: collectionViewLayout)
@@ -39,7 +56,7 @@ class MusicView: UIView {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(MusicCollectionViewCell.self,
                                 forCellWithReuseIdentifier: MusicCollectionViewCell.identifier)
-        collectionView.backgroundColor = Color.darkPurpleAppColor
+        collectionView.backgroundColor = .clear
         return collectionView
     }()
     
@@ -57,7 +74,7 @@ class MusicView: UIView {
         let gradienLayer = CAGradientLayer()
         gradienLayer.colors = [UIColor.clear.cgColor,
                                Color.darkPurpleAppColor.cgColor]
-        gradienLayer.startPoint = CGPoint(x: 0.5,
+        gradienLayer.startPoint = CGPoint(x: 0.1,
                                           y: 0.5)
         gradienLayer.endPoint = CGPoint(x: 1.0,
                                         y: 0.5)
@@ -155,30 +172,30 @@ class MusicView: UIView {
         setupLayout()
     }
     
-    override func layoutSubviews() {
-        setupSongLabelGradienLayer()
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     private func setupLayout() {
-        backgroundColor = UIColor(red: 29/255,
-                                  green: 23/255,
-                                  blue: 38/255,
-                                  alpha: 1)
-        
+        backgroundColor = Color.darkPurpleAppColor
         [collectionView, songNameLabel, musicanNameLabel,
          musicSlider, remaningTimeLabel,
-         currentTimeLabel, buttonsStackView].forEach({ addSubview($0)})
+         currentTimeLabel, buttonsStackView,
+         blueShadowView].forEach({ addSubview($0)})
+        insertSubview(blueShadowView, at: 0)
         
-        let heightCollectionView: CGFloat = cellItemHeight + CGFloat(20)
+        let heightCollectionView: CGFloat = cellItemHeight + 20
         let topOffsetCollectionView: CGFloat = height * 0.1
         let topOffsetSongNameLabel: CGFloat = height * 0.07
         let topOffsetButtons: CGFloat = height * 0.075
         let topOffsetSlider: CGFloat = height * 0.042
 
+        blueShadowView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.height.equalTo(1)
+            make.width.equalTo(1)
+            make.centerX.equalToSuperview()
+        }
         
         collectionView.snp.makeConstraints { make in
             make.leading.equalToSuperview()
@@ -189,14 +206,14 @@ class MusicView: UIView {
                 
         songNameLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
-            make.trailing.equalToSuperview().offset(-50)
+            make.trailing.equalToSuperview().offset(-16)
             make.top.equalTo(collectionView.snp.bottom).offset(topOffsetSongNameLabel)
             make.height.equalTo(20)
         }
         
         musicanNameLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
-            make.trailing.equalToSuperview().offset(-22)
+            make.trailing.equalToSuperview().offset(-16)
             make.top.equalTo(songNameLabel.snp.bottom).offset(5)
             make.height.equalTo(20)
         }
@@ -234,7 +251,7 @@ class MusicView: UIView {
         
     }
     
-    private func setupSongLabelGradienLayer() {
+    func setupSongLabelGradienLayer() {
         songLabelGradienLayer.frame = songNameLabel.bounds
         songNameLabel.layer.addSublayer(songLabelGradienLayer)
     }

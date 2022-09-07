@@ -40,7 +40,7 @@ class MusicPresenter: MainPresenterProtocol {
     // MARK: - Public Methods
     
     func setMusicPlayer() {
-        self.music = Music()
+        self.music = Music(isPlaying: true)
         music?.data.forEach({ song in
             audioManager?.downloadFile(song.filePath)
         })

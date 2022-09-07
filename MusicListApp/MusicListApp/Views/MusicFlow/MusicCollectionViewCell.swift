@@ -52,6 +52,7 @@ class MusicCollectionViewCell: UICollectionViewCell {
     // MARK: - Private Methods
     
     private func setupCellLayout() {
+        backgroundColor = .clear
         [transparentView, borderView,
          songImageView].forEach( {addSubview($0)} )
         

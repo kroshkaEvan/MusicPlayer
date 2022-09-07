@@ -21,7 +21,6 @@ class MusicViewController: UIViewController {
     
     var presenter: MainPresenterProtocol?
     var currentIndex = 0
-    var isPlaying: Bool = true
     
     // MARK: - Initializers
     
@@ -38,6 +37,7 @@ class MusicViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        musicView?.setupSongLabelGradienLayer()
     }
     
     // MARK: - Private Methods
@@ -80,13 +80,15 @@ class MusicViewController: UIViewController {
                                                animated: false)
         currentIndex = index
         reloadDataCell(index: currentIndex)
-        isPlaying = false
+        presenter?.music?.isPlaying = false
+        guard let isPlaying = presenter?.music?.isPlaying else {return}
         presenter?.playMusic()
         setPlayPauseIcon(isPlaying: isPlaying)
     }
     
     @objc private func didTapPlayMusic() {
-        isPlaying.toggle()
+        presenter?.music?.isPlaying.toggle()
+        guard let isPlaying = presenter?.music?.isPlaying else {return}
         setPlayPauseIcon(isPlaying: isPlaying)
         presenter?.playMusic()
     }
@@ -171,7 +173,8 @@ extension MusicViewController: UICollectionViewDataSource, UICollectionViewDeleg
                            targetContentOffset: targetContentOffset)
         reloadDataCell(index: currentIndex)
         presenter?.playMusic()
-        isPlaying = false
+        presenter?.music?.isPlaying = false
+        guard let isPlaying = presenter?.music?.isPlaying else {return}
         setPlayPauseIcon(isPlaying: isPlaying)
     }
 }

@@ -31,7 +31,7 @@ final class AudioManager: NSObject, AudioManagerProtocol, AVAudioPlayerDelegate 
                                                                 in: .userDomainMask).first!
         let destinationUrl = documentsDirectoryURL.appendingPathComponent(audioURL.lastPathComponent)
         if FileManager.default.fileExists(atPath: destinationUrl.path) {
-            print("The file already exists at path")
+            print("The music file already exists at path")
         } else {
             URLSession.shared.downloadTask(with: audioURL,
                                            completionHandler: { (location, response, error) -> Void in
@@ -40,7 +40,7 @@ final class AudioManager: NSObject, AudioManagerProtocol, AVAudioPlayerDelegate 
                 do {
                     try FileManager.default.moveItem(at: location,
                                                      to: destinationUrl)
-                    print("File moved to documents folder")
+                    print("Music file moved to documents folder")
                 } catch let error as NSError {
                     print(error.localizedDescription)
                 }
